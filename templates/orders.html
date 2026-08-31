@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<h1>My Orders</h1>
+
+{% for o in orders %}
+
+<div class="order" style="
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+">
+
+```
+<h2>Order #{{ o.id }}</h2>
+
+<p>
+    <strong>Date:</strong> {{ o.created_at }}
+    &nbsp; | &nbsp;
+    <strong>Total:</strong> ₹{{ o.total }}
+    &nbsp; | &nbsp;
+    <strong>Status:</strong> {{ o.status }}
+</p>
+
+<hr>
+
+{% for i in o.items.all %}
+
+<div class="order-item" style="
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+">
+
+    <!-- Product Image -->
+    <div>
+        {% if i.product.image_url %}
+
+            <img
+                src="{% static i.product.image_url %}"
+                alt="{{ i.product.name }}"
+                style="
+                    width: 120px;
+                    height: 120px;
+                    object-fit: cover;
+                    border-radius: 10px;
+                    border: 1px solid #ddd;
+                "
+            >
+
+        {% else %}
+
+            <div style="
+                width: 120px;
+                height: 120px;
+                background: #f1f1f1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 10px;
+            ">
+                No Image
+            </div>
+
+        {% endif %}
+    </div>
+
+    <!-- Product Information -->
+    <div>
+
+        <h3 style="margin-top: 0;">
+            {{ i.product.name }}
+        </h3>
+
+        <p>
+            <strong>Quantity:</strong> {{ i.quantity }}
+        </p>
+
+        <p>
+            <strong>Price:</strong> ₹{{ i.price }}
+        </p>
+
+        <p>
+            <strong>Product ID:</strong> {{ i.product.id }}
+        </p>
+
+    </div>
+
+</div>
+
+{% empty %}
+
+    <p>No items found in this order.</p>
+
+{% endfor %}
+
+
+</div>
+
+{% empty %}
+
+
+<p>You haven't placed any orders yet.</p>
+
+
+{% endfor %}
+
+{% endblock %}

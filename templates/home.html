@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="hero">
+    <h1>Simple E-Commerce Store</h1>
+    <p>Browse products, view details, manage your cart and place orders.</p>
+</section>
+
+<div class="toolbar">
+    <input id="search" placeholder="Search products..." onkeyup="filterProducts()">
+</div>
+
+<div class="grid" id="productGrid">
+
+{% for p in products %}
+
+<article class="card">
+
+    {% if p.image_url %}
+        <img src="/static/{{ p.image_url }}" alt="{{ p.name }}" class="product-image">
+    {% else %}
+        <div class="emoji">PRODUCT</div>
+    {% endif %}
+
+    <h2>{{ p.name }}</h2>
+
+    <p>{{ p.description }}</p>
+
+    <h3>Price: Rs. {{ p.price }}</h3>
+
+    <p>Stock: {{ p.stock }}</p>
+
+    <a class="btn" href="{% url 'product_detail' p.id %}">
+        Details
+    </a>
+
+    <a class="btn dark" href="{% url 'add_to_cart' p.id %}">
+        Add to Cart
+    </a>
+
+</article>
+
+{% empty %}
+
+<p>
+    Add products from
+    <a href="/admin/">Django Admin</a>
+</p>
+
+{% endfor %}
+
+
+</div>
+
+{% endblock %}

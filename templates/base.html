@@ -1,0 +1,57 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ShopEase</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<nav>
+    <a class="logo" href="/">ShopEase</a>
+
+    <div>
+        <a href="/">Products</a>
+        <a href="/cart/">Cart</a>
+
+        {% if user.is_authenticated %}
+
+            <a href="/orders/">Orders</a>
+
+            <form action="/logout/" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" style="background:none;border:none;cursor:pointer;">
+                    Logout
+                </button>
+            </form>
+
+        {% else %}
+
+            <a href="/login/">Login</a>
+            <a href="/register/">Register</a>
+
+        {% endif %}
+    </div>
+</nav>
+
+<main>
+
+    {% for message in messages %}
+        <div class="message">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    {% block content %}
+    {% endblock %}
+
+</main>
+
+<script src="{% static 'js/app.js' %}"></script>
+
+</body>
+</html>
